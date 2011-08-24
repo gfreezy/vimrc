@@ -18,7 +18,7 @@ fun SetupVAM()
 	exec '!p='.shellescape(vam_install_path).'; mkdir -p "$p" && cd "$p" && git clone --depth 1 git://github.com/MarcWeber/vim-addon-manager.git'
 	endif
 
-	call vam#ActivateAddons(['taglist', 'molokai', 'Gundo', 'pyflakes3161', 'scratch664', 'The_NERD_Commenter' ], {'auto_install' : 0})
+	call vam#ActivateAddons(['taglist', 'molokai', 'Gundo', 'pyflakes3161', 'scratch664', 'The_NERD_Commenter', 'supertab', 'fruity', 'YankRing', 'minibufexpl.vim_-_Elegant_buffer_explorer', 'JavaScript_Indent'], {'auto_install' : 0})
 	" sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
 	" where pluginA could be github:YourName or snipmate-snippets see vam#install#RewriteName()
 	" also see section "5. Installing plugins" in VAM's documentation
@@ -143,6 +143,7 @@ set viminfo='20,\"80            " read/write a .viminfo file, don't store more
 set wildmenu                    " make tab completion for files/buffers act like bash
 set wildmode=list:longest       " show a list when pressing tab and complete
                                 "    longest match
+set completeopt=menu,longest
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set title                       " change the terminal's title
 set novisualbell                " don't beep
@@ -171,7 +172,8 @@ nmap Q gqap
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
 " Buffer stuff
-nmap <silent><C-tab> :bn<CR>          " Next buffer
+nmap <C-tab> :bn<CR>            " Next buffer
+nmap <leader>n :bn<CR>            " Next buffer
 nmap <leader>x :bd<CR>              " Kill current buffer
 
 
@@ -198,8 +200,8 @@ nmap <leader>P "+gP
 
 " YankRing stuff
 let g:yankring_history_dir = '$HOME/.vim/.tmp'
-let g:yankring_replace_n_nkey = '<M-p>'
-let g:yankring_replace_n_pkey = '<M-n>'
+"let g:yankring_replace_n_nkey = '<M-p>'
+"let g:yankring_replace_n_pkey = '<M-n>'
 nmap <leader>r :YRShow<CR>
 
 " Edit the vimrc file
@@ -275,6 +277,11 @@ let Tlist_Display_Tag_Scope=0
 " show TagList window on the right
 let Tlist_Use_Right_Window=1
 
+" }}}
+
+" SuperTab settings {{{
+let g:SuperTabLongestEnhanced=1
+let g:SuperTabLongestHighlight=1
 " }}}
 
 " Conflict markers {{{
@@ -411,7 +418,7 @@ iab lllorem Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Etiam lacu
 if has("gui_running")
     set guifont=Monospace\ 10
     "set guifont=Inconsolata:h14
-    colorscheme molokai
+    colorscheme fruity
 
     " Remove toolbar, left scrollbar and right scrollbar
     "set guioptions-=m
