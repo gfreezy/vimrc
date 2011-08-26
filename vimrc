@@ -2,35 +2,6 @@
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
-" Vim Addon Manager{{{
-fun SetupVAM()
-	" YES, you can customize this vam_install_path path and everything still works!
-	let vam_install_path = expand('$HOME') . '/.vim/vim-addons'
-	exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
-
-	" * unix based os users may want to use this code checking out VAM
-	" * windows users want to use http://mawercer.de/~marc/vam/index.php
-	"   to fetch VAM, VAM-known-repositories and the listed plugins
-	"   without having to install curl, unzip, git tool chain first
-	if !isdirectory(vam_install_path.'/vim-addon-manager') && 1 == confirm("git clone VAM into ".vam_install_path."?","&Y\n&N")
-	" I'm sorry having to add this reminder. Eventually it'll pay off.
-	call confirm("Remind yourself that most plugins ship with documentation (README*, doc/*.txt). Its your first source of knowledge. If you can't find the info you're looking for in reasonable time ask maintainers to improve documentation")
-	exec '!p='.shellescape(vam_install_path).'; mkdir -p "$p" && cd "$p" && git clone --depth 1 git://github.com/MarcWeber/vim-addon-manager.git'
-	endif
-
-	call vam#ActivateAddons(['taglist', 'molokai', 'Gundo', 'pyflakes3161', 'scratch664', 'The_NERD_Commenter', 'supertab', 'fruity', 'YankRing', 'minibufexpl.vim_-_Elegant_buffer_explorer', 'JavaScript_Indent'], {'auto_install' : 0})
-	" sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
-	" where pluginA could be github:YourName or snipmate-snippets see vam#install#RewriteName()
-	" also see section "5. Installing plugins" in VAM's documentation
-	" which will tell you how to find the plugin names of a plugin
-	endf
-call SetupVAM()
-	" experimental: run after gui has been started (gvim) [3]
-	" option1:  au VimEnter * call SetupVAM()
-	" option2:  au GUIEnter * call SetupVAM()
-	" See BUGS sections below [*]
-" }}}
-
 filetype plugin indent on       " enable detection, plugins and indenting in one step
 
 " Change the mapleader from \ to ,
@@ -156,6 +127,35 @@ set cursorline                  " underline the current line, for quick orientat
 set tags=tags;                  " set the ctags file
 " }}}
 
+" Vim Addon Manager{{{
+fun SetupVAM()
+    " YES, you can customize this vam_install_path path and everything still works!
+    let vam_install_path = expand('$HOME') . '/.vim/vim-addons'
+    exec 'set runtimepath+='.vam_install_path.'/vim-addon-manager'
+   
+    " * unix based os users may want to use this code checking out VAM
+    " * windows users want to use http://mawercer.de/~marc/vam/index.php
+    "   to fetch VAM, VAM-known-repositories and the listed plugins
+    "   without having to install curl, unzip, git tool chain first
+    if !isdirectory(vam_install_path.'/vim-addon-manager') && 1 == confirm("git clone VAM into ".vam_install_path."?","&Y\n&N")
+    " I'm sorry having to add this reminder. Eventually it'll pay off.
+    call confirm("Remind yourself that most plugins ship with documentation (README*, doc/*.txt). Its your first source of knowledge. If you can't find the info you're looking for in reasonable time ask maintainers to improve documentation")
+    exec '!p='.shellescape(vam_install_path).'; mkdir -p "$p" && cd "$p" && git clone --depth 1 git://github.com/MarcWeber/vim-addon-manager.git'
+    endif
+    
+    call vam#ActivateAddons(['python790', 'jpythonfold', 'JavaScript_Indent', 'taglist', 'Gundo', 'pyflakes3161', 'scratch664', 'The_NERD_Commenter', 'supertab', 'YankRing', 'Solarized', 'bufexplorer.zip', 'python30'], {'auto_install' : 0})
+    " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
+    " where pluginA could be github:YourName or snipmate-snippets see vam#install#RewriteName()
+    " also see section "5. Installing plugins" in VAM's documentation
+    " which will tell you how to find the plugin names of a plugin
+    endf
+    call SetupVAM()
+    " experimental: run after gui has been started (gvim) [3]
+    " option1:  au VimEnter * call SetupVAM()
+    " option2:  au GUIEnter * call SetupVAM()
+    " See BUGS sections below [*]
+" }}}
+
 " Shortcut mappings {{{
 " Since I never use the ; key anyway, this is a real optimization for almost
 " all Vim commands, since we don't have to press that annoying Shift key that
@@ -172,9 +172,9 @@ nmap Q gqap
 vnoremap p <Esc>:let current_reg = @"<CR>gvdi<C-R>=current_reg<CR><Esc>
 
 " Buffer stuff
-nmap <C-tab> :bn<CR>            " Next buffer
-nmap <leader>n :bn<CR>            " Next buffer
-nmap <leader>x :bd<CR>              " Kill current buffer
+nnoremap <C-tab> :bn<CR>            " Next buffer
+nnoremap <leader>n :bn<CR>            " Next buffer
+nnoremap <leader>x :bd<CR>              " Kill current buffer
 
 
 " Remap j and k to act as expected when used on long, wrapped, lines
@@ -285,6 +285,13 @@ let Tlist_Use_Right_Window=1
 " SuperTab settings {{{
 let g:SuperTabLongestEnhanced=1
 let g:SuperTabLongestHighlight=1
+" }}}
+
+" BufExplorer settings {{{
+let g:bufExplorerSortBy='fullpath'   " Sort by full file path name.
+let g:bufExplorerSplitRight=1        " Split right.
+let g:bufExplorerSplitBelow=1        " Split new window below current.
+let g:bufExplorerSplitOutPathName=1  " Split the path and file name.
 " }}}
 
 " Conflict markers {{{
@@ -418,10 +425,11 @@ iab lorem Lorem ipsum dolor sit amet, consectetur adipiscing elit
 iab llorem Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Etiam lacus ligula, accumsan id imperdiet rhoncus, dapibus vitae arcu.  Nulla non quam erat, luctus consequat nisi
 iab lllorem Lorem ipsum dolor sit amet, consectetur adipiscing elit.  Etiam lacus ligula, accumsan id imperdiet rhoncus, dapibus vitae arcu.  Nulla non quam erat, luctus consequat nisi.  Integer hendrerit lacus sagittis erat fermentum tincidunt.  Cras vel dui neque.  In sagittis commodo luctus.  Mauris non metus dolor, ut suscipit dui.  Aliquam mauris lacus, laoreet et consequat quis, bibendum id ipsum.  Donec gravida, diam id imperdiet cursus, nunc nisl bibendum sapien, eget tempor neque elit in tortor
 
+
 if has("gui_running")
-    set guifont=Monospace\ 10
-    "set guifont=Inconsolata:h14
-    colorscheme fruity
+    "set guifont=Monospace\ 10
+    set guifont=Inconsolata\ 10
+    colorscheme solarized
 
     " Remove toolbar, left scrollbar and right scrollbar
     "set guioptions-=m
@@ -436,7 +444,7 @@ if has("gui_running")
         set columns=86
         set guifont=Droid\ Sans\ Mono:h14
         set cmdheight=1
-        colorscheme molokai
+        colorscheme solarized
     endfunction
     command! -bang -nargs=0 ScreenRecordMode call ScreenRecordMode()
 endif
