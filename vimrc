@@ -63,7 +63,7 @@ set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
 
 set nolist                      " don't show invisible characters by default,
                                 " but it is enabled for some file types (see later)
-set pastetoggle=<F2>            " when in insert mode, press <F2> to go to
+set pastetoggle=<F3>            " when in insert mode, press <F2> to go to
                                 "    paste mode, where you can paste mass data
                                 "    that won't be autoindented
 set mouse=a                     " enable using the mouse if terminal emulator
@@ -245,6 +245,9 @@ nnoremap <leader>v V`]
 
 " Gundo.vim
 nnoremap <leader>g :GundoToggle<CR>
+
+" Sync file to dev server xiachufang
+nnoremap <F2> :!$HOME/ssh-rsync.sh<CR>
 " }}}
 
 " TagList settings {{{
@@ -289,7 +292,7 @@ let g:SuperTabLongestHighlight=1
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " shortcut to jump to next conflict marker
-nmap <silent> <leader>c /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
+nmap <silent> <leader>j /^\(<\\|=\\|>\)\{7\}\([^=].\+\)\?$<CR>
 " }}}
 
 " Filetype specific handling {{{
@@ -436,7 +439,5 @@ if has("gui_running")
         colorscheme molokai
     endfunction
     command! -bang -nargs=0 ScreenRecordMode call ScreenRecordMode()
-else
-    set bg=dark
 endif
 
