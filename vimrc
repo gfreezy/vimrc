@@ -30,7 +30,7 @@ set scrolloff=4                 " keep 4 lines off the edges of the screen when 
 set hlsearch                    " highlight search terms
 set incsearch                   " show search matches as you type
 set gdefault                    " search/replace "globally" (on a line) by default
-set listchars=tab:▸\ ,trail:·,extends:#,nbsp:·
+"set listchars=tab:,trail:·,extends:#,nbsp:·
 
 set nolist                      " don't show invisible characters by default,
                                 " but it is enabled for some file types (see later)
@@ -143,7 +143,7 @@ fun SetupVAM()
     exec '!p='.shellescape(vam_install_path).'; mkdir -p "$p" && cd "$p" && git clone --depth 1 git://github.com/MarcWeber/vim-addon-manager.git'
     endif
     
-    call vam#ActivateAddons(['python790', 'jpythonfold', 'JavaScript_Indent', 'taglist', 'Gundo', 'pyflakes3161', 'scratch664', 'The_NERD_Commenter', 'supertab', 'YankRing', 'Solarized', 'bufexplorer.zip', 'python30'], {'auto_install' : 0})
+    call vam#ActivateAddons(['python%790', 'jpythonfold', 'JavaScript_Indent', 'taglist', 'Gundo', 'Syntastic', 'scratch%664', 'The_NERD_Commenter', 'SuperTab', 'YankRing', 'Solarized', 'bufexplorer.zip', 'python%30'], {'auto_install' : 0})
     " sample: call vam#ActivateAddons(['pluginA','pluginB', ...], {'auto_install' : 0})
     " where pluginA could be github:YourName or snipmate-snippets see vam#install#RewriteName()
     " also see section "5. Installing plugins" in VAM's documentation
